@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { prismaSession } from './libs/session.js';
+import passport from './libs/passport.js';
 
 const PORT = process.env.PORT || 3000;
 const viewsPath = path.join(
@@ -22,6 +23,8 @@ app.use(express.static(publicPath));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(prismaSession);
+app.use(passport.session());
+app.use(passport.initialize());
 
 // Automatically set currentUser for views
 app.use((req, res, next) => {
@@ -32,6 +35,9 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('<h1>Hello World</h1>');
+});
 
 // Error handling
 app.use((err, req, res, next) => {
