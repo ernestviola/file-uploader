@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { prismaSession } from './libs/session.js';
 import passport from './libs/passport.js';
+import authRouter from './routes/authRouter.js';
 
 const PORT = process.env.PORT || 3000;
 const viewsPath = path.join(
@@ -38,6 +39,8 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   res.send('<h1>Hello World</h1>');
 });
+
+app.use(authRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
