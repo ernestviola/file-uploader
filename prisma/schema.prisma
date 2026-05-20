@@ -13,14 +13,58 @@ datasource db {
 }
 
 model Session {
-  id          String   @id
-  sid         String   @unique
-  data        String
-  expiresAt   DateTime
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
 
 model User {
-  id          Int    @id @default(autoincrement())
-  username    String    @unique
-  password    String
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  password String
+  folders  Folder[]
+  files    File[]
+}
+
+model Folder {
+  id             Int          @id @default(autoincrement())
+  name           String
+  owner          User         @relation(fields: [ownerId], references: [id])
+  ownerId        Int
+  files          File[]
+  children       Folder[]     @relation("FolderHierarchy")
+  parent         Folder?      @relation("FolderHierarchy", fields: [parentId], references: [id])
+  parentId       Int?
+  shareableLinks FolderLink[]
+  added          DateTime     @default(now())
+  updated        DateTime     @updatedAt
+}
+
+model FolderLink {
+  id       Int      @id @default(autoincrement())
+  uuid     String   @default(uuid())
+  folder   Folder   @relation(fields: [folderId], references: [id])
+  folderId Int
+  expires  DateTime
+}
+
+model File {
+  id             Int        @id @default(autoincrement())
+  name           String
+  owner          User       @relation(fields: [ownerId], references: [id])
+  ownerId        Int
+  folder         Folder?    @relation(fields: [folderId], references: [id])
+  folderId       Int?
+  shareableLinks FileLink[]
+  added          DateTime   @default(now())
+  updated        DateTime   @updatedAt
+}
+
+model FileLink {
+  id      Int      @id @default(autoincrement())
+  uuid    String   @default(uuid())
+  file    File     @relation(fields: [fileId], references: [id])
+  fileId  Int
+  expires DateTime
 }
