@@ -90,7 +90,7 @@ authController.getLogIn = (req, res) => {
 };
 authController.postLogIn = (req, res) => {};
 
-authController.logOut = (req, res, next) => {
+authController.getLogOut = (req, res, next) => {
   req.logout((error) => {
     if (error) return next(error);
   });
