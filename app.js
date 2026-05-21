@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('<h1>Hello World</h1>');
+  res.render('index');
 });
 
 app.use(authRouter);
