@@ -12,13 +12,25 @@
         aria-label="username"
         placeholder="username"
         name="username"
+        value='<%= locals.formData?.username %>'
       />
+      <% if (locals.fieldErrors?.username) {%>
+            <span class='error-msg'><%= fieldErrors.username %></span>
+      <% } %>
       <input
         type="password"
         aria-label="password"
         placeholder="password"
         name="password"
+        value='<%= locals.formData?.password %>'
       />
+      <% if (locals.fieldErrors?.password) {%>
+            <span class='error-msg'><%= fieldErrors.password %></span>
+      <% } %>
+      <% if (locals.loginError) {%>
+        <span>Invalid Username or Password.</span>
+      <% } %>
+      <button type="submit">Log In</button>
     </form>
   </body>
 </html>

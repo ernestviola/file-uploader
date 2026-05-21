@@ -1,6 +1,7 @@
 import { body, validationResult, matchedData } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../libs/prisma.js';
+import passport from '../libs/passport.js';
 
 const authController = {};
 
@@ -30,6 +31,11 @@ const signUpValidation = [
     }
     return value === req.body.password;
   }),
+];
+
+const logInValidation = [
+  body('username').notEmpty().withMessage('Username is required.'),
+  body('password').notEmpty().withMessage('Password is required.'),
 ];
 
 authController.getSignUp = (req, res) => {
@@ -88,7 +94,43 @@ authController.postSignUp = [
 authController.getLogIn = (req, res) => {
   return res.render('login');
 };
-authController.postLogIn = (req, res) => {};
+authController.postLogIn = [
+  logInValidation,
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const fieldErrors = {};
+      errors.array().forEach((error) => {
+        if (error.path) {
+          fieldErrors[error.path] = error.msg;
+        }
+      });
+
+      return res.render('login', {
+        fieldErrors,
+        formData: req.body,
+      });
+    }
+
+    passport.authenticate('local', (error, user, info) => {
+      if (error) return next(error);
+
+      if (!user) {
+        return res.render('login', {
+          loginError: true,
+          formData: req.body,
+        });
+      }
+
+      req.login(user, (error) => {
+        if (error) {
+          return next(error);
+        }
+        res.redirect('/');
+      });
+    })(req, res, next);
+  },
+];
 
 authController.getLogOut = (req, res, next) => {
   req.logout((error) => {
