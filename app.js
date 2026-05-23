@@ -48,14 +48,8 @@ app.use(authRouter);
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err);
-  if ((req.status = 'Unauthenticated')) {
-    res.status(401).send('401 - Must Authenticate');
-  }
-});
-
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).send('Something went wrong!');
+  const status = err.statusCode || 500;
+  res.status(status).send(err.message);
 });
 
 app.listen(PORT, (error) => {

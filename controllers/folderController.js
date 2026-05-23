@@ -2,7 +2,7 @@ import { prisma } from '../libs/prisma.js';
 
 const folderController = {};
 
-folderController.getRoot = async (req, res) => {
+folderController.getRoot = async (req, res, next) => {
   const folder = await prisma.folder.findFirst({
     where: {
       ownerId: req.user.id,
@@ -11,6 +11,12 @@ folderController.getRoot = async (req, res) => {
     include: { children: true, files: true },
   });
 
+  if (!folder) {
+    const err = new Error('404 - Not Found');
+    err.statusCode = 404;
+    return next(err);
+  }
+
   const breadcrumbs = [{ id: folder.id, name: folder.name }];
 
   //root dir or query parameter
@@ -18,8 +24,24 @@ folderController.getRoot = async (req, res) => {
   res.render('folders/folder', { folder, breadcrumbs });
 };
 
-folderController.getCurrentFolder = async (req, res) => {
-  res.render('folders/folder');
+folderController.getCurrentFolder = async (req, res, next) => {
+  const { id } = req.params;
+  const folder = await prisma.folder.findFirst({
+    where: {
+      ownerId: req.user.id,
+      id: Number(id),
+    },
+    include: { children: true, files: true },
+  });
+
+  if (!folder) {
+    const err = new Error('404 - Not Found');
+    err.statusCode = 404;
+    return next(err);
+  }
+
+  console.log(id);
+  res.render('folders/folder', { folder });
 };
 
 export default folderController;

@@ -6,8 +6,9 @@ const folderRouter = Router();
 
 folderRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
-    req.status = 'Unauthenticated';
-    return next(new Error('Must authenticate'));
+    const err = new Error('401 - Must authenticate');
+    err.statusCode = 401;
+    return next(err);
   }
   return next();
 });
