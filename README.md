@@ -9,6 +9,22 @@ Sharable links that can either link to the file or folder
 
 - Shares the entire folder for the entire TTL
 
+## Build Plan
+
+/folders which redirects to the root folder
+/folders/create
+/folders/:id?path=
+/folders/update
+/folders/delete
+
+new folder button
+new folder form where we can set the name
+
+post /file
+post /file/delete
+
+new file area. upload multiple or drag.
+
 ## Architecture
 
 The pattern for this system is MVC and we're hosting our application and database on Google Cloud Platform. The server is sitting on a container in Cloud Run and the database on Cloud SQL.
@@ -85,10 +101,10 @@ erDiagram
     int ownerId FK
   }
 
-  FOLDER_CHILDREN {
-    int folderId
-    int childId
-    string childType
+  FOLDER_OBJECT {
+    int folderID FK
+    int objectID FK
+    string objectType
   }
 
   LINK {

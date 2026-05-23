@@ -67,6 +67,12 @@ authController.postSignUp = [
         data: {
           username,
           password: hashedPassword,
+          folders: {
+            create: {
+              name: 'Home',
+              isRoot: true,
+            },
+          },
         },
       });
 

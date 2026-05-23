@@ -36,6 +36,7 @@ model Folder {
   children       Folder[]     @relation("FolderHierarchy")
   parent         Folder?      @relation("FolderHierarchy", fields: [parentId], references: [id])
   parentId       Int?
+  isRoot         Boolean      @default(false)
   shareableLinks FolderLink[]
   added          DateTime     @default(now())
   updated        DateTime     @updatedAt

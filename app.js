@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { prismaSession } from './libs/session.js';
 import passport from './libs/passport.js';
 import authRouter from './routes/authRouter.js';
+import folderRouter from './routes/folderRouter.js';
 
 const PORT = process.env.PORT || 3000;
 const viewsPath = path.join(
@@ -40,9 +41,18 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.use('/folders', folderRouter);
+
 app.use(authRouter);
 
 // Error handling
+app.use((err, req, res, next) => {
+  console.error(err);
+  if ((req.status = 'Unauthenticated')) {
+    res.status(401).send('401 - Must Authenticate');
+  }
+});
+
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).send('Something went wrong!');
