@@ -37,7 +37,7 @@ folderController.getFolder = async (req, res, next) => {
   const folder = await prisma.folder.findFirst({
     where: {
       ownerId: req.user.id,
-      id: Number(id),
+      id: parseInt(id),
     },
     include: { children: true, files: true },
   });
@@ -90,7 +90,24 @@ folderController.postCreateFolder = [
   },
 ];
 
-folderController.postUpdateFolder = (req, res, next) => {};
+folderController.postUpdateFolder = [
+  folderNameValidation,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    const parentId = parseInt(req.params.id);
+
+    const { name } = matchedData(req);
+    const updatedFolder = await prisma.folder.update({
+      where: {
+        id: id,
+        ownerId: req.user.id,
+      },
+      data: {
+        name: name,
+      },
+    });
+  },
+];
 folderController.postDeleteFolder = (req, res, next) => {};
 
 export default folderController;

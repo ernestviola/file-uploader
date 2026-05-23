@@ -13,11 +13,11 @@ folderRouter.use((req, res, next) => {
   return next();
 });
 
+folderRouter.get('/home', folderController.getRoot);
+folderRouter.get('/:id', folderController.getFolder);
+
 folderRouter.post('/:id/create', folderController.postCreateFolder);
 folderRouter.post('/:id/update', folderController.postUpdateFolder);
 folderRouter.post('/:id/delete', folderController.postDeleteFolder);
-
-folderRouter.get('/home', folderController.getRoot);
-folderRouter.get('/:id', folderController.getFolder);
 
 export default folderRouter;
