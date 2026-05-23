@@ -11,13 +11,25 @@
     <nav class='breadcrumbs'>
       <% breadcrumbs.forEach((crumb,i) => { %>
         <% if (i < breadcrumbs.length - 1) {%>
-          <a href='/folders/<%= crumb.id %>'><%= crumb.name %></a>
+          <a href='/folders/<%= crumb.id %>'><%= crumb.name %></a><span> / </span>
         <% } else { %>
           <span><%= crumb.name %></span>
         <% } %>
       <% }); %>
     </nav>
     <% } %>
-    <button>New Folder</button>
+    <form action='/folders/<%= locals.folder.id %>/create' method='post'>
+      <input type='text' placeholder='folder name...' name='name' aria-label='Folder Name' required>
+      <button type='submit'>New Folder</button>
+    </form>
+    <div class='file-explorer'>
+      <% if (locals.folder.children) { %>
+        <% folder.children.forEach(child => { %>
+          <a href='/folders/<%= child.id %>'><%= child.name %></a>
+        <% });  %>
+      <% } else { %>
+        <span>This folder is empty</span>
+      <% } %>
+    </div>
   </body>
 </html>

@@ -53,7 +53,6 @@ authController.postSignUp = [
           fieldErrors[error.path] = error.msg;
         }
       });
-      console.log(req.body);
       return res.render('signup', {
         fieldErrors,
         formData: req.body,
@@ -75,8 +74,6 @@ authController.postSignUp = [
           },
         },
       });
-
-      console.log(user);
 
       return req.login(user, (error) => {
         if (error) return next(error);
