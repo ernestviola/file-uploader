@@ -22,6 +22,9 @@
       <input type='text' placeholder='folder name...' name='name' aria-label='Folder Name' required>
       <button type='submit'>New Folder</button>
     </form>
+    <form action='/folders/<%= locals.folder.id %>/files/new'>
+      <input type='file' aria-label='New File'>
+    </form>
     <div class='file-explorer'>
       <% if (locals.folder.children) { %>
         <% folder.children.forEach(child => { %>

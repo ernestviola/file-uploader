@@ -77,7 +77,7 @@ authController.postSignUp = [
 
       return req.login(user, (error) => {
         if (error) return next(error);
-        res.redirect('/');
+        res.redirect('/folders/home');
       });
     } catch (error) {
       if (error.code === '23505') {
@@ -129,7 +129,7 @@ authController.postLogIn = [
         if (error) {
           return next(error);
         }
-        res.redirect('/');
+        res.redirect('/folders/home');
       });
     })(req, res, next);
   },

@@ -49,6 +49,9 @@ app.use(authRouter);
 app.use((err, req, res, next) => {
   console.error(err);
   const status = err.statusCode || 500;
+  if (status === 401) {
+    return res.redirect('/login');
+  }
   res.status(status).send(err.message);
 });
 

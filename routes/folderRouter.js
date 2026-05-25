@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { prisma } from '../libs/prisma.js';
 import folderController from '../controllers/folderController.js';
+import fileRouter from './fileRouter.js';
 
 const folderRouter = Router();
 
@@ -19,5 +20,7 @@ folderRouter.get('/:id', folderController.getFolder);
 folderRouter.post('/:id/create', folderController.postCreateFolder);
 folderRouter.post('/:id/update', folderController.postUpdateFolder);
 folderRouter.post('/:id/delete', folderController.postDeleteFolder);
+
+folderRouter.use('/:folderId/files', fileRouter);
 
 export default folderRouter;
