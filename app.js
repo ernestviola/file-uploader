@@ -38,6 +38,9 @@ app.use((req, res, next) => {
 
 // Routes
 app.get('/', (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.redirect('/folders/home');
+  }
   res.render('index');
 });
 

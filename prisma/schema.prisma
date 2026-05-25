@@ -53,6 +53,10 @@ model FolderLink {
 model File {
   id             Int        @id @default(autoincrement())
   name           String
+  filePath       String
+  size           Int
+  mimeType       String
+  extension      String
   owner          User       @relation(fields: [ownerId], references: [id])
   ownerId        Int
   folder         Folder?    @relation(fields: [folderId], references: [id])
