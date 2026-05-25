@@ -76,7 +76,8 @@ folderController.postCreateFolder = [
     const parentId = parseInt(req.params.id);
     const { name } = matchedData(req);
     if (!errors.isEmpty()) {
-      // probably shouldn't allow
+      // given we're requiring it on the form we'll just redirect here
+      res.redirect(`/folders/${parentId}`);
     }
     const newFolder = await prisma.folder.create({
       data: {
@@ -95,7 +96,10 @@ folderController.postUpdateFolder = [
   async (req, res, next) => {
     const errors = validationResult(req);
     const parentId = parseInt(req.params.id);
-
+    if (!errors.isEmpty()) {
+      // given we're requiring it on the form we'll just redirect here
+      res.redirect(`/folders/${parentId}`);
+    }
     const { name } = matchedData(req);
     const updatedFolder = await prisma.folder.update({
       where: {
@@ -106,8 +110,18 @@ folderController.postUpdateFolder = [
         name: name,
       },
     });
+    res.redirect(`/folders/${parentId}`);
   },
 ];
-folderController.postDeleteFolder = (req, res, next) => {};
+
+folderController.postDeleteFolder = async (req, res, next) => {
+  const { id } = req.params;
+  const deletedFolder = await prisma.folder.delete({
+    where: {
+      id: id,
+    },
+  });
+  res.redirect(`/folders/${deletedFolder.parentId}`);
+};
 
 export default folderController;
