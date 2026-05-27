@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel='stylesheet' href='/styles.css'>
+    <link rel='stylesheet' href='/folder.css'>
+    <script src='/folder.js' defer></script>
   </head>
   <body>
     <% if (locals.currentUser) {%>
       <h1>Welcome Home, <%= currentUser.username %></h1>
     <% } else { %>
-      <h1>You have to log in</h1>
+      <%- include('components/unauthIndex.ejs') %>
     <% } %>
     
   </body>

@@ -74,7 +74,11 @@ h6 {
   isolation: isolate;
 }
 
+:root {
+  --primary-color: #6fb7e3;
+  --secondary-color: #dbcfb0;
+}
 body {
-  height: 100vh;
+  min-height: 100vh;
   background-image: radial-gradient(#f2f2f7 0%, #e5dece 100%);
 }
