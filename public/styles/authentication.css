@@ -1,0 +1,74 @@
+:root {
+  --primary-color: #6fb7e3;
+  --primary-color-lighter: #97cef0;
+  --secondary-color: #dbcfb0;
+  --secondary-color-rgb: rgb(219, 207, 176);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  background-color: white;
+  padding: 20px 40px;
+  border-radius: 30px;
+}
+
+form > button {
+  margin: 10px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  background-color: var(--primary-color);
+  border: none;
+}
+
+form > button:hover {
+  background-color: var(--primary-color-lighter);
+}
+
+.cta {
+  font-size: 40px;
+  text-align: center;
+}
+
+.form-title {
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row > label {
+  font-size: 18px;
+}
+
+.form-row > input {
+  min-width: 250px;
+  max-height: 400px;
+  padding: 10px 15px;
+}
+
+.auth-link > a {
+  color: black;
+  text-decoration: underline;
+}
+
+.auth-link > a:hover {
+  text-decoration: none;
+}

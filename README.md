@@ -131,3 +131,5 @@ CSS reset from [Josh Comeau](https://www.joshwcomeau.com/css/custom-css-reset/)
 [Microsoft access file icons created by Pixel perfect - Flaticon](https://www.flaticon.com/free-icons/microsoft-access-file)
 
 [Mp3 icons created by Shahryar MInhas - Flaticon](https://www.flaticon.com/free-icons/mp3)
+
+Icons from google fonts

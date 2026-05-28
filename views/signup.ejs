@@ -4,41 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
+    <link rel='stylesheet' href='/styles/styles.css'>
+    <link rel='stylesheet' href='/styles/authentication.css'>
   </head>
   <body>
+    <span class='cta'>Sign up and get up to 100mb of storage!</span>
     <form action="/signup" method="post">
-      <input
-        type="text"
-        aria-label="username"
-        placeholder="username"
-        name="username"
-        value="<%= locals.formData?.username %>"
-      />
+      <span class='form-title'>Sign Up</span>
+      <div class='form-row'>
+        <label for='username'>Username</label>
+        <input
+          type="text"
+          aria-label="username"
+          placeholder="username"
+          name="username"
+          value="<%= locals.formData?.username %>"
+        />
+      </div>
       <% if (locals.fieldErrors?.username) {%>
             <span class='error-msg'><%= fieldErrors.username %></span>
       <% } %>
-      <input
-        type="password"
-        aria-label="password"
-        placeholder="password"
-        name="password"
-        value="<%= locals.formData?.password %>"
-      />
+      <div class='form-row'>
+        <label for='password'>Password</label>
+        <input
+          type="password"
+          aria-label="password"
+          placeholder="password"
+          name="password"
+          value="<%= locals.formData?.password %>"
+        />
+      </div>
       <% if (locals.fieldErrors?.password) {%>
             <span class='error-msg'><%= fieldErrors.password %></span>
       <% } %>
-      <input
-        type="password"
-        aria-label="password"
-        placeholder="Confirm Password"
-        name="confirm_password"
-        value=""
-      />
+      <div class='form-row'>
+        <label for='confirm_password'>Confirm Password</label>
+        <input
+          type="password"
+          aria-label="password"
+          placeholder="Confirm Password"
+          name="confirm_password"
+          value=""
+        />
+      </div>
       <% if (locals.fieldErrors?.confirm_password) {%>
             <span class='error-msg'><%= fieldErrors.confirm_password %></span>
       <% } %>
 
-      <button type='submit'>Sign Up</button>
+      <button type='submit' aria-label='Sign Up'><img src='/icons/arrow-forward-light.png' alt=''></button>
+      <span class='auth-link'>Already have an account? <a href='/signup'>Log In!</a></span>
     </form>
   </body>
 </html>

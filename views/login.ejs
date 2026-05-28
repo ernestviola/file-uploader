@@ -4,33 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Log In</title>
+    <link rel='stylesheet' href='/styles/styles.css'>
+    <link rel='stylesheet' href='/styles/authentication.css'>
   </head>
   <body>
+    <span class='cta'>Welcome back!</span>
     <form action="/login" method="post">
-      <input
-        type="text"
-        aria-label="username"
-        placeholder="username"
-        name="username"
-        value='<%= locals.formData?.username %>'
-      />
+      <span class='form-title'>Login</span>
+      <div class='form-row'>
+        <label for='username'>Username</label>
+        <input
+          type="text"
+          aria-label="username"
+          placeholder="username"
+          name="username"
+          value='<%= locals.formData?.username %>'
+          autofocus
+        />
+      </div>
       <% if (locals.fieldErrors?.username) {%>
             <span class='error-msg'><%= fieldErrors.username %></span>
       <% } %>
-      <input
-        type="password"
-        aria-label="password"
-        placeholder="password"
-        name="password"
-        value='<%= locals.formData?.password %>'
-      />
+      <div class='form-row'> 
+        <label for='password'>Password</label>
+        <input
+          type="password"
+          aria-label="password"
+          placeholder="password"
+          name="password"
+          value='<%= locals.formData?.password %>'
+        />
+      </div>
       <% if (locals.fieldErrors?.password) {%>
             <span class='error-msg'><%= fieldErrors.password %></span>
       <% } %>
       <% if (locals.loginError) {%>
         <span>Invalid Username or Password.</span>
       <% } %>
-      <button type="submit">Log In</button>
+      <button type="submit" aria-label='Log In'><img src='/icons/arrow-forward-light.png' alt=''></button>
+      <span class='auth-link'>Need an account? <a href='/signup'>Sign Up!</a></span>
     </form>
   </body>
 </html>
