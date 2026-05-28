@@ -4,20 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= locals.folder ? locals.folder.name : '' %></title>
+    <link rel='stylesheet' href='/styles/styles.css'>
+    <link rel='stylesheet' href='/styles/folder.css'>
   </head>
   <body>
-    <h1><%= locals.folder ? locals.folder.name : '' %></h1>
-    <% if (locals.breadcrumbs) {%>
-    <nav class='breadcrumbs'>
-      <% breadcrumbs.forEach((crumb,i) => { %>
-        <% if (i < breadcrumbs.length - 1) {%>
-          <a href='/folders/<%= crumb.id %>'><%= crumb.name %></a><span> / </span>
-        <% } else { %>
-          <span><%= crumb.name %></span>
+    
+    <nav>
+      <div class='left'>
+        <h1><%= locals.folder ? locals.folder.name : '' %></h1>
+        <% if (locals.breadcrumbs) {%>
+        <div class='breadcrumbs'>
+          <% breadcrumbs.forEach((crumb,i) => { %>
+            <% if (i < breadcrumbs.length - 1) {%>
+              <span>/<a href='/folders/<%= crumb.id %>'><%= crumb.name %></a></span>
+            <% } else { %>
+              <span> / <span><%= crumb.name %></span></span>
+            <% } %>
+          <% }); %>
+        </div>
         <% } %>
-      <% }); %>
+      </div>
+      <div class='right'>
+        <a href='/logout'>Logout</a>
+      </div>
     </nav>
-    <% } %>
+    
     <form action='/folders/<%= locals.folder.id %>/create' method='post'>
       <input type='text' placeholder='folder name...' name='name' aria-label='Folder Name' required>
       <button type='submit'>New Folder</button>
