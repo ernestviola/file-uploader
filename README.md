@@ -121,3 +121,13 @@ erDiagram
 ## Attributions
 
 CSS reset from [Josh Comeau](https://www.joshwcomeau.com/css/custom-css-reset/)
+
+### Icons and Assets
+
+[Pdf icons created by Dimitry Miroliubov - Flaticon](https://www.flaticon.com/free-icons/pdf)
+
+[Logos icons created by pocike - Flaticon](https://www.flaticon.com/free-icons/logos)
+
+[Microsoft access file icons created by Pixel perfect - Flaticon](https://www.flaticon.com/free-icons/microsoft-access-file)
+
+[Mp3 icons created by Shahryar MInhas - Flaticon](https://www.flaticon.com/free-icons/mp3)

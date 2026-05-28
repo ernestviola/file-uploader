@@ -5,6 +5,7 @@ import { prismaSession } from './libs/session.js';
 import passport from './libs/passport.js';
 import authRouter from './routes/authRouter.js';
 import folderRouter from './routes/folderRouter.js';
+import indexController from './controllers/indexController.js';
 
 const PORT = process.env.PORT || 3000;
 const viewsPath = path.join(
@@ -37,12 +38,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.get('/', (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.redirect('/folders/home');
-  }
-  res.render('index');
-});
+app.get('/', indexController.get);
 
 app.use('/folders', folderRouter);
 

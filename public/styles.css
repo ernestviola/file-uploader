@@ -79,6 +79,5 @@ h6 {
   --secondary-color: #dbcfb0;
 }
 body {
-  min-height: 100vh;
   background-image: radial-gradient(#f2f2f7 0%, #e5dece 100%);
 }
