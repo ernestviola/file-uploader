@@ -46,6 +46,7 @@ function fileInitialize() {
     el.style.left = `${startCoord.x}px`;
     el.style.top = `${startCoord.y}px`;
     el.style.height = `${startHeight}px`;
+
     return {
       el,
       startHeight,
