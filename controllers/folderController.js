@@ -29,7 +29,11 @@ folderController.getRoot = async (req, res, next) => {
 
   const breadcrumbs = [{ id: folder.id, name: folder.name }];
 
-  res.render('folders/folder', { folder, breadcrumbs });
+  res.render('folders/folder', {
+    folder,
+    breadcrumbs,
+    folderObjects: allFolderObjects(folder),
+  });
 };
 
 folderController.getFolder = async (req, res, next) => {
@@ -66,7 +70,11 @@ folderController.getFolder = async (req, res, next) => {
     }
   }
   breadcrumbs.reverse();
-  res.render('folders/folder', { folder, breadcrumbs });
+  res.render('folders/folder', {
+    folder,
+    breadcrumbs,
+    folderObjects: allFolderObjects(folder),
+  });
 };
 
 folderController.postCreateFolder = [
@@ -123,5 +131,17 @@ folderController.postDeleteFolder = async (req, res, next) => {
   });
   res.redirect(`/folders/${deletedFolder.parentId}`);
 };
+
+function allFolderObjects(folder) {
+  const folders = folder.children.map((folder) => {
+    folder.type = 'folder';
+    return folder;
+  });
+  const files = folder.files.map((file) => {
+    file.type = 'file';
+    return file;
+  });
+  return [...folders, ...files];
+}
 
 export default folderController;

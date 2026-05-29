@@ -37,32 +37,20 @@
       <input type='file' aria-label='New Files' name='files' multiple>
       <button type='submit'>Save</button>
     </form>
+    <form action=''>
+        <input type='text' name='search' placeholder='search...'>
+    </form>
     <div class='explorer'>
-      <div class='folder-explorer'>
-        <% if (locals.folder.children) { %>
-          <% folder.children.forEach(child => { %>
-            <a href='/folders/<%= child.id %>'><%= child.name %></a>
-          <% });  %>
-        <% } else { %>
-          <span>This folder is empty</span>
-        <% } %>
-      </div>
-      <div class='file-explorer'>
-        <% if (locals.folder.files) { %>
-          <% folder.files.forEach(file => { %>
-            <a href='/folders/<%= locals.folder.id %>/files/<%= file.id %>/download'><%= file.name %>.<%= file.extension %></a>
-            <form action='/folders/<%= locals.folder.id %>/files/<%= file.id %>/update' method='post'>
-              <input type='text' name='name' required>
-              <button type='submit'>Rename</button>
-            </form>
-            <form action='/folders/<%= locals.folder.id %>/files/<%= file.id %>/delete' method='post'>
-              <button type='submit'>Delete</button>
-            </form>
-          <% });  %>
-        <% } else { %>
-          <span>This folder is empty</span>
-        <% } %>
-      </div>
+      <% if (locals.folderObjects) { %>
+        
+        <% folderObjects.forEach(obj => { %>
+          <% if (obj.type === 'folder') { %>
+            <a href='/folders/<%= obj.id %>'><%= obj.name %></a>
+          <% } else { %>
+            <a href='/folders/<%= locals.folder.id %>/files/<%= obj.id %>/download'><%= obj.name %>.<%= obj.extension %></a>
+          <% } %>
+        <%}); %>
+      <% } %>
     </div>
   </body>
 </html>
