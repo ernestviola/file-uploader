@@ -10,8 +10,80 @@ nav {
   align-items: center;
 }
 
+.search {
+  border-radius: 10px;
+  min-width: 400px;
+  width: 80%;
+  max-width: max(70%, 800px);
+  padding: 5px 10px;
+}
+
 .explorer {
   background-color: white;
+  border-radius: 20px 20px 0px 0px;
+  min-height: calc(100vh - 40px);
+  min-width: 400px;
+  max-width: max(70%, 800px);
+  margin: 0px auto;
+  padding: 20px;
+}
+
+.objects {
   display: grid;
-  grid-template-columns: 3fr, 1fr, 1fr;
+  grid-template-columns: 40px 1fr 100px 100px 50px;
+  grid-template-rows: auto;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.header-row {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  font-weight: 600;
+}
+
+.row {
+  display: grid;
+  grid-column: 1/-1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  padding: 10px 0px;
+  border-bottom: 1px solid rgb(221, 221, 221);
+  height: 60px;
+}
+
+.row:nth-child(2) {
+  border-top: 1px solid rgb(221, 221, 221);
+}
+
+.folder-row {
+  transition: background-color 0.1s ease-in-out;
+}
+
+.folder-row:hover {
+  background-color: rgb(221, 221, 221);
+}
+
+.object-type {
+  height: 20px;
+  width: 20px;
+}
+
+.btn-container > button {
+  display: flex;
+}
+
+.btn-actions {
+  border: none;
+  background-color: white;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  padding: 5px;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.btn-actions:hover {
+  background-color: rgb(221, 221, 221);
 }

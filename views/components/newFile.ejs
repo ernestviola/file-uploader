@@ -1,0 +1,8 @@
+<form
+  action="/folders/<%= locals.folder.id %>/files/new"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <input type="file" aria-label="New Files" name="files" multiple />
+  <button type="submit">Save</button>
+</form>
