@@ -10,7 +10,7 @@ body {
   cursor: pointer;
   transform: translate(-50%, 70%);
   bottom: 0;
-  animation: jiggle 0.2s 5 ease-in-out;
+  animation: jiggle 0.2s 5 ease-out;
   z-index: 1;
 }
 
