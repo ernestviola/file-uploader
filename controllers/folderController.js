@@ -141,7 +141,8 @@ function allFolderObjects(folder) {
     file.type = 'file';
     return file;
   });
-  return [...folders, ...files];
+  const folderObjects = [...folders, ...files];
+  return folderObjects;
 }
 
 export default folderController;

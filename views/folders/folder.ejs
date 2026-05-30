@@ -6,70 +6,77 @@
     <title><%= locals.folder ? locals.folder.name : '' %></title>
     <link rel='stylesheet' href='/styles/styles.css'>
     <link rel='stylesheet' href='/styles/folder.css'>
+    <script src='/script.js' defer></script>
   </head>
   <body>
-    
     <nav>
       <div class='left'>
-        <h1><%= locals.folder ? locals.folder.name : '' %></h1>
+        <span class='logo'>File Uploader</span>
       </div>
       <div class='right'>
         <a href='/logout'>Logout</a>
       </div>
     </nav>
-    
-    <form action='' >
+    <div class='container'>
+      <form action='' class='search-form' >
         <input type='text' name='search' placeholder='search...' class='search' autofocus>
-    </form>
-    <div class='explorer'>
-      <div class='btn-container'>
-        <button aria-label='New Folder' title='New Folder'><img src='/icons/add.svg' alt=''><img src='/icons/folder.svg' alt='' ></button>
-        <button aria-label='New File' title='New File'><img src='/icons/add.svg' alt=''><img src='/icons/file.svg' alt=''></button>
-      </div>
-      <% if (locals.breadcrumbs) {%>
-        <div class='breadcrumbs'>
-          <% breadcrumbs.forEach((crumb,i) => { %>
-            <% if (i < breadcrumbs.length - 1) {%>
-              <span>/<a href='/folders/<%= crumb.id %>'><%= crumb.name %></a></span>
-            <% } else { %>
-              <span> / <span><%= crumb.name %></span></span>
-            <% } %>
-          <% }); %>
-        </div>
-        <% } %>
-      <% if (locals.folderObjects.length !== 0) { %>
-        <div class='objects'>
-          <div class='header-row'>
-            <span></span>
-            <span>name</span>
-            <span>last modified</span>
-            <span>size</span>
-            <span></span>
-          </div>
-          <% folderObjects.forEach(obj => { %>
-            <% if (obj.type === 'folder') { %>
-              <a href='/folders/<%= obj.id %>' class='folder-row row' title='open'>
-                <img src='/icons/blue-folder-closed.svg' alt='' class='object-type'>
-                <span><%= obj.name %></span>
-                <span><%= obj.updated.toLocaleDateString('en-US',{'month': 'long', 'day': 'numeric', 'year': 'numeric'}) %></span>
-                <span></span>
-                <span></span>
-              </a>
-            <% } else { %>
-              <div class='row'>
-                <span></span>
-                <a href='/folders/<%= locals.folder.id %>/files/<%= obj.id %>/download'><%= obj.name %>.<%= obj.extension %></a>
-                <span><%= obj.updated.toLocaleDateString('en-US',{'month': 'long', 'day': 'numeric', 'year': 'numeric'}) %></span>
-                <span><%= obj.size %></span>
-                <button class='btn-actions'><img src='/icons/more.svg' alt='File Actions'></button>
+      </form>
+      <div class='explorer'>
+        <div class='explorer-header'>
+          <div class='folder-info'>
+            <% if (locals.breadcrumbs) {%>
+              <div class='breadcrumbs'>
+                <% breadcrumbs.forEach((crumb,i) => { %>
+                  <% if (i < breadcrumbs.length - 1) {%>
+                    <span><a href='/folders/<%= crumb.id %>'><%= crumb.name %></a></span><span> ></span>
+                  <% } else { %>
+                    <span><%= crumb.name %></span>
+                  <% } %>
+                <% }); %>
               </div>
-              
-            <% } %>
-          <%}); %>
+              <% } %>
+          </div>
+          <div class='btn-container'>
+            <button aria-label='New Folder' title='New Folder' class='btn-simple'><img src='/icons/add.svg' alt='' > New Folder</button>
+            <button aria-label='New File' title='New File' class='btn-simple'><img src='/icons/add.svg' alt='' > New File</button>
+          </div>
         </div>
-      <% } else { %>
-        <span>Add a folder or file!</span>
-      <% } %>
+        <% if (locals.folderObjects.length !== 0) { %>
+          <div class='objects'>
+            <div class='header-row'>
+              <span></span>
+              <span>name</span>
+              <span>last modified</span>
+              <span>size</span>
+              <span></span>
+            </div>
+            <% folderObjects.forEach(obj => { %>
+              <% if (obj.type === 'folder') { %>
+                <a href='/folders/<%= obj.id %>' class='folder-row row' title='open'>
+                  <img src='/icons/blue-folder-closed.svg' alt='' class='object-type'>
+                  <span><%= obj.name %></span>
+                  <span><%= obj.updated.toLocaleDateString('en-US',{'month': 'long', 'day': 'numeric', 'year': 'numeric'}) %></span>
+                  <span></span>
+                  <span></span>
+                </a>
+              <% } else { %>
+                <div class='row'>
+                  <span></span>
+                  <span><%= obj.name %>.<%= obj.extension %></span>
+                  <span><%= obj.updated.toLocaleDateString('en-US',{'month': 'long', 'day': 'numeric', 'year': 'numeric'}) %></span>
+                  <span><%= obj.size %></span>
+                  <button class='btn-actions' data-folder-id='<%= locals.folder.id %>' data-file-id='<%= obj.id %>'>
+                    <img src='/icons/more.svg' alt='File Actions' >
+                  </button>
+                </div>
+      
+              <% } %>
+            <%}); %>
+          </div>
+        <% } else { %>
+          <span>Add a folder or file!</span>
+        <% } %>
+      </div>
     </div>
   </body>
 </html>

@@ -80,6 +80,17 @@ h6 {
   --secondary-color-rgb: rgb(219, 207, 176);
 }
 
+a {
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+html {
+  background: #e5dece;
+}
 body {
   background-image: radial-gradient(#f2f2f7 0%, #e5dece 100%);
   min-height: 100vh;
