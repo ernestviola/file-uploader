@@ -9,6 +9,7 @@
     <script src='/scripts/actionMenu.js' defer></script>
     <script src='/scripts/fileSize.js' defer></script>
     <script src='/scripts/folderSave.js' defer></script>
+    <script src='/scripts/folderActions.js' defer></script>
   </head>
   <body>
     <nav>
@@ -33,14 +34,21 @@
                     <span><a href='/folders/<%= crumb.id %>'><%= crumb.name %></a></span><span> ></span>
                   <% } else { %>
                     <span id='current-folder' contenteditable='true' data-folder-id="<%= locals.folder.id %>"><%= crumb.name %></span>
+                    <button aria-label='Delete Folder' id='delete-folder-button' data-folder-id='<%= locals.folder.id %>' data-folder-name='<%= crumb.name %>'>
+                      <img src='/icons/delete-red.svg' alt=''>
+                    </button>
                   <% } %>
                 <% }); %>
               </div>
               <% } %>
           </div>
           <div class='btn-container'>
-            <button aria-label='New Folder' title='New Folder' class='btn-simple'><img src='/icons/add.svg' alt='' > New Folder</button>
-            <button aria-label='New File' title='New File' class='btn-simple'><img src='/icons/add.svg' alt='' > New File</button>
+            <button aria-label='New Folder' title='New Folder' class='btn-simple' id='new-folder-button' data-parent-folder-id='<%= locals.folder.id %>'>
+              <img src='/icons/add.svg' alt='' > New Folder
+            </button>
+            <button aria-label='New File' title='New File' class='btn-simple' id='new-files-button' data-parent-folder-id='<%= locals.folder.id %>'>
+              <img src='/icons/add.svg' alt='' > New File
+            </button>
           </div>
         </div>
         <% if (locals.folderObjects.length !== 0) { %>

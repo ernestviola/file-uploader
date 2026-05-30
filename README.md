@@ -13,15 +13,13 @@ Sharable links that can either link to the file or folder
 
 new folder dialog
 new file dialog
-folder delete dialog
 
 search bar
 logo
 navbar
 empty folder message
 active vs inactive breadcrumb folder
-
-storage used status
+storage usage status
 
 ## Architecture
 

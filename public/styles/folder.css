@@ -63,6 +63,27 @@ nav {
 .breadcrumbs {
   font-size: 25px;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#delete-folder-button {
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  transition: 0.1s ease-in-out;
+}
+
+#delete-folder-button:hover {
+  background-color: rgb(221, 221, 221);
+  transform: scale(1.1);
 }
 
 .current-folder-input {
@@ -219,10 +240,6 @@ dialog > form > input {
 .dialog-buttons {
   display: flex;
   gap: 20px;
-}
-
-.warning {
-  background: rgb(255, 99, 99);
 }
 
 .dialog-buttons > button {

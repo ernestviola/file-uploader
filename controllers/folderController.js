@@ -87,6 +87,20 @@ folderController.postCreateFolder = [
       // given we're requiring it on the form we'll just redirect here
       res.redirect(`/folders/${parentId}`);
     }
+
+    const parentFolder = await prisma.folder.findFirst({
+      where: {
+        parentId: parentId,
+        ownerId: req.user.id,
+      },
+    });
+
+    if (!parentFolder) {
+      return res.json({
+        success: false,
+        message: 'Parent folder does not exist.',
+      });
+    }
     const newFolder = await prisma.folder.create({
       data: {
         parentId: parentId,
@@ -124,10 +138,10 @@ folderController.postUpdateFolder = [
       });
     }
 
-    if (!folder.parentId) {
+    if (folder.isRoot) {
       return res.json({
         success: false,
-        message: "Can't rename the home folder",
+        message: "Can't rename the root folder",
       });
     }
 
@@ -145,10 +159,30 @@ folderController.postUpdateFolder = [
 ];
 
 folderController.postDeleteFolder = async (req, res, next) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id);
+  const folder = await prisma.folder.findFirst({
+    where: {
+      id: id,
+      ownerId: req.user.id,
+    },
+  });
+
+  if (!folder) {
+    // cant delete
+    return res.json({ success: false, message: "Can't find folder" });
+  }
+
+  if (folder.isRoot) {
+    return res.json({
+      success: false,
+      message: 'Unable to delete root folder',
+    });
+  }
+
   const deletedFolder = await prisma.folder.delete({
     where: {
       id: id,
+      ownerId: req.user.id,
     },
   });
   res.redirect(`/folders/${deletedFolder.parentId}`);
