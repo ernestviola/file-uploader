@@ -62,11 +62,16 @@ nav {
 
 .breadcrumbs {
   font-size: 25px;
+  display: flex;
+}
+
+.current-folder-input {
+  width: 0px;
 }
 
 .objects {
   display: grid;
-  grid-template-columns: 40px 1fr 100px 50px 50px;
+  grid-template-columns: 40px 1fr 100px 100px 50px;
   grid-template-rows: auto;
   align-items: center;
   column-gap: 20px;

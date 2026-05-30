@@ -103,12 +103,34 @@ folderController.postUpdateFolder = [
   folderNameValidation,
   async (req, res, next) => {
     const errors = validationResult(req);
-    const parentId = parseInt(req.params.id);
+    const id = parseInt(req.params.id);
     if (!errors.isEmpty()) {
       // given we're requiring it on the form we'll just redirect here
-      res.redirect(`/folders/${parentId}`);
+      console.log(errors);
+      return res.redirect(`/folders/${id}`);
     }
     const { name } = matchedData(req);
+    const folder = await prisma.folder.findFirst({
+      where: {
+        id: id,
+        ownerId: req.user.id,
+      },
+    });
+
+    if (!folder) {
+      return res.json({
+        success: false,
+        message: "Can't find folder",
+      });
+    }
+
+    if (!folder.parentId) {
+      return res.json({
+        success: false,
+        message: "Can't rename the home folder",
+      });
+    }
+
     const updatedFolder = await prisma.folder.update({
       where: {
         id: id,
@@ -118,7 +140,7 @@ folderController.postUpdateFolder = [
         name: name,
       },
     });
-    res.redirect(`/folders/${parentId}`);
+    return res.json({ success: true });
   },
 ];
 

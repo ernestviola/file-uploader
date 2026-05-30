@@ -6,7 +6,9 @@
     <title><%= locals.folder ? locals.folder.name : '' %></title>
     <link rel='stylesheet' href='/styles/styles.css'>
     <link rel='stylesheet' href='/styles/folder.css'>
-    <script src='/script.js' defer></script>
+    <script src='/scripts/actionMenu.js' defer></script>
+    <script src='/scripts/fileSize.js' defer></script>
+    <script src='/scripts/folderSave.js' defer></script>
   </head>
   <body>
     <nav>
@@ -30,7 +32,7 @@
                   <% if (i < breadcrumbs.length - 1) {%>
                     <span><a href='/folders/<%= crumb.id %>'><%= crumb.name %></a></span><span> ></span>
                   <% } else { %>
-                    <span><%= crumb.name %></span>
+                    <span id='current-folder' contenteditable='true' data-folder-id="<%= locals.folder.id %>"><%= crumb.name %></span>
                   <% } %>
                 <% }); %>
               </div>
@@ -64,7 +66,7 @@
                   <span></span>
                   <span><%= obj.name %>.<%= obj.extension %></span>
                   <span><%= obj.updated.toLocaleDateString('en-US',{'month': 'long', 'day': 'numeric', 'year': 'numeric'}) %></span>
-                  <span><%= obj.size %></span>
+                  <span class='fileSize'><%= obj.size %></span>
                   <button class='btn-actions' data-folder-id='<%= locals.folder.id %>' data-file-id='<%= obj.id %>'>
                     <img src='/icons/more.svg' alt='File Actions' >
                   </button>

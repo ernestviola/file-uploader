@@ -24,6 +24,7 @@ app.set('view engine', 'ejs');
 // Middlewares
 app.use(express.static(publicPath));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(prismaSession);
 app.use(passport.session());
