@@ -12,6 +12,7 @@ document.addEventListener('click', removeActionMenu);
 
 function handleActionButtonClick(e, btn) {
   e.stopPropagation();
+  removeActionMenu();
   showActionMenu(e.clientX, e.clientY, btn);
 }
 function showActionMenu(x, y, btn) {
