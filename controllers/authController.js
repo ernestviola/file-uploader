@@ -138,8 +138,8 @@ authController.postLogIn = [
 authController.getLogOut = (req, res, next) => {
   req.logout((error) => {
     if (error) return next(error);
+    return res.redirect('/');
   });
-  return res.redirect('/');
 };
 
 export default authController;

@@ -2,34 +2,48 @@ const folder = document.getElementById('folder');
 const front = document.getElementById('front');
 const filesContainer = document.body;
 
-const folderPosition = getOffset(folder);
-console.log('folder', folderPosition);
+let folderPosition = getOffset(folder);
 let fileObjects = [];
 fileInitialize();
+fileSetStartCoords();
 fileRandomize();
+
+window.addEventListener('resize', () => {
+  closeFolder();
+  folderPosition = getOffset(folder);
+  fileSetStartCoords();
+});
 
 folder.addEventListener('click', (e) => {
   if (front.classList.contains('closed')) {
-    front.classList.add('open');
-    front.classList.remove('closed');
-    fileObjects.forEach((img) => {
-      img.el.classList.add('file-img-active');
-      img.el.style.left = `${img.endCoord.x}px`;
-      img.el.style.top = `${img.endCoord.y}px`;
-      img.el.style.height = `${img.endHeight}px`;
-      img.el.style.transform = `rotate(${img.rotation}deg)`;
-    });
+    openFolder();
   } else {
-    front.classList.add('closed');
-    front.classList.remove('open');
-    fileObjects.forEach((img) => {
-      img.el.style.left = `${img.startCoord.x}px`;
-      img.el.style.top = `${img.startCoord.y}px`;
-      img.el.style.height = `${img.startHeight}px`;
-    });
-    fileRandomize();
+    closeFolder();
   }
 });
+
+function openFolder() {
+  front.classList.add('open');
+  front.classList.remove('closed');
+  fileObjects.forEach((img) => {
+    img.el.classList.add('file-img-active');
+    img.el.style.left = `${img.endCoord.x}px`;
+    img.el.style.top = `${img.endCoord.y}px`;
+    img.el.style.height = `${img.endHeight}px`;
+    img.el.style.transform = `rotate(${img.rotation}deg)`;
+  });
+}
+
+function closeFolder() {
+  front.classList.add('closed');
+  front.classList.remove('open');
+  fileObjects.forEach((img) => {
+    img.el.style.left = `${img.startCoord.x}px`;
+    img.el.style.top = `${img.startCoord.y}px`;
+    img.el.style.height = `${img.startHeight}px`;
+  });
+  fileRandomize();
+}
 
 function fileInitialize() {
   fileObjects = files.map((file) => {
@@ -38,20 +52,24 @@ function fileInitialize() {
     el.src = `/folder-assets/${file}`;
     filesContainer.appendChild(el);
     const startHeight = 10;
-    const startCoord = {
-      x: front.offsetWidth / 2 + folderPosition.x,
-      y: folderPosition.y - Math.floor(Math.random() * 5) + 20,
-    };
-
-    el.style.left = `${startCoord.x}px`;
-    el.style.top = `${startCoord.y}px`;
     el.style.height = `${startHeight}px`;
 
     return {
       el,
       startHeight,
-      startCoord,
     };
+  });
+}
+
+function fileSetStartCoords() {
+  fileObjects.forEach((file, i) => {
+    file.startCoord = {
+      x: front.offsetWidth / 2 + folderPosition.x,
+      y: folderPosition.y - Math.floor(Math.random() * 5) + 20,
+    };
+
+    file.el.style.left = `${file.startCoord.x}px`;
+    file.el.style.top = `${file.startCoord.y}px`;
   });
 }
 
@@ -96,7 +114,6 @@ function sunflowerXY(i, center) {
     x: xClamped,
     y: yClamped,
   };
-  console.log(coords);
   return coords;
 }
 
