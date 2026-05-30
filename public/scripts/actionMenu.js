@@ -31,7 +31,11 @@ function showActionMenu(x, y, btn) {
     addOptionFileDownload(btn.dataset.folderId, btn.dataset.fileId),
   );
   actionMenu.appendChild(
-    addOptionFileDelete(btn.dataset.folderId, btn.dataset.fileId),
+    addOptionFileDelete(
+      btn.dataset.folderId,
+      btn.dataset.fileId,
+      btn.dataset.fileName,
+    ),
   );
   document.body.appendChild(actionMenu);
 
@@ -66,19 +70,11 @@ function addOptionFileDownload(folderId, fileId) {
   optionDownload.href = `/folders/${folderId}/files/${fileId}/download`;
   return optionDownload;
 }
-function addOptionFileDelete(folderId, fileId) {
+function addOptionFileDelete(folderId, fileId, fileName) {
   const optionDelete = document.createElement('button');
   optionDelete.addEventListener('click', () =>
-    showDeleteMenu(folderId, fileId),
+    showDeleteMenu(folderId, fileId, fileName),
   );
-  optionDelete.innerText = 'Delete';
-  optionDelete.className = 'action-menu-item';
-  return optionDelete;
-}
-
-function addOptionFolderDelete(folderId) {
-  const optionDelete = document.createElement('button');
-  optionDelete.addEventListener('click', () => showRenameMenu(folderId));
   optionDelete.innerText = 'Delete';
   optionDelete.className = 'action-menu-item';
   return optionDelete;
@@ -89,7 +85,7 @@ function showRenameMenu(folderId, fileId, value) {
   dialog.addEventListener('click', (e) => {
     if (e.target === dialog) {
       dialog.close();
-      delete dialog;
+      dialog.remove();
     }
   });
 
@@ -108,13 +104,14 @@ function showRenameMenu(folderId, fileId, value) {
   input.autocomplete = 'off';
 
   const buttonContainer = document.createElement('div');
+  buttonContainer.className = 'dialog-buttons';
 
   const cancelButton = document.createElement('button');
   cancelButton.textContent = 'Cancel';
   cancelButton.type = 'button';
   cancelButton.addEventListener('click', () => {
     dialog.close();
-    delete dialog;
+    dialog.remove();
   });
 
   const saveButton = document.createElement('button');
@@ -136,7 +133,7 @@ function showDeleteMenu(folderId, fileId, name) {
   dialog.addEventListener('click', (e) => {
     if (e.target === dialog) {
       dialog.close();
-      delete dialog;
+      dialog.remove();
     }
   });
 
@@ -150,25 +147,31 @@ function showDeleteMenu(folderId, fileId, name) {
 
   form.method = 'post';
 
+  const fileName = document.createElement('p');
+  fileName.textContent = name;
+
   const buttonContainer = document.createElement('div');
+  buttonContainer.className = 'dialog-buttons';
 
   const cancelButton = document.createElement('button');
   cancelButton.textContent = 'Cancel';
   cancelButton.type = 'button';
   cancelButton.addEventListener('click', () => {
     dialog.close();
-    delete dialog;
+    dialog.remove();
   });
 
-  const saveButton = document.createElement('button');
-  saveButton.textContent = 'Delete';
-  saveButton.type = 'submit';
+  const deleteButton = document.createElement('button');
+  deleteButton.className = 'warning';
+  deleteButton.textContent = 'Delete';
+  deleteButton.type = 'submit';
 
   dialog.appendChild(title);
+  dialog.appendChild(fileName);
   dialog.appendChild(form);
   form.appendChild(buttonContainer);
   buttonContainer.appendChild(cancelButton);
-  buttonContainer.appendChild(saveButton);
+  buttonContainer.appendChild(deleteButton);
   document.body.appendChild(dialog);
   dialog.showModal();
 }

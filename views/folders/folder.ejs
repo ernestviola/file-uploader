@@ -67,7 +67,7 @@
                   <span><%= obj.name %>.<%= obj.extension %></span>
                   <span><%= obj.updated.toLocaleDateString('en-US',{'month': 'long', 'day': 'numeric', 'year': 'numeric'}) %></span>
                   <span class='fileSize'><%= obj.size %></span>
-                  <button class='btn-actions' data-folder-id='<%= locals.folder.id %>' data-file-id='<%= obj.id %>' data-current-name='<%= obj.name %>'>
+                  <button class='btn-actions' data-folder-id='<%= locals.folder.id %>' data-file-id='<%= obj.id %>' data-current-name='<%= obj.name %>' data-file-name='<%= obj.name %>.<%= obj.extension %>'>
                     <img src='/icons/more.svg' alt='File Actions' >
                   </button>
                 </div>

@@ -11,19 +11,17 @@ Sharable links that can either link to the file or folder
 
 ## Build Plan
 
-/folders which redirects to the root folder
-/folders/create
-/folders/:id?path=
-/folders/update
-/folders/delete
+new folder dialog
+new file dialog
+folder delete dialog
 
-new folder button
-new folder form where we can set the name
+search bar
+logo
+navbar
+empty folder message
+active vs inactive breadcrumb folder
 
-post /file
-post /file/delete
-
-new file area. upload multiple or drag.
+storage used status
 
 ## Architecture
 
