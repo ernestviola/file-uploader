@@ -11,9 +11,6 @@ Sharable links that can either link to the file or folder
 
 ## Build Plan
 
-new folder dialog
-new file dialog
-
 search bar
 logo
 navbar

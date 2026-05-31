@@ -92,10 +92,9 @@ nav {
 
 .objects {
   display: grid;
-  grid-template-columns: 40px 1fr 100px 100px 50px;
+  grid-template-columns: 40px 1fr 130px 80px 50px;
   grid-template-rows: auto;
   align-items: center;
-  column-gap: 20px;
 }
 
 .header-row {
@@ -229,6 +228,7 @@ dialog > p {
 dialog > form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 20px;
 }
@@ -266,4 +266,20 @@ dialog > form > input {
 
 .warning:hover {
   border: 1px solid rgb(255, 0, 0) !important;
+}
+
+.file-picker-container > div {
+  padding: 20px;
+  min-height: 200px;
+  width: 300px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.file-picker-container > div > img {
+  height: 40px;
+  width: 40px;
 }
