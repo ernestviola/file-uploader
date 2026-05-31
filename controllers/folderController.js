@@ -87,10 +87,10 @@ folderController.postCreateFolder = [
       // given we're requiring it on the form we'll just redirect here
       res.redirect(`/folders/${parentId}`);
     }
-
+    console.log(parentId);
     const parentFolder = await prisma.folder.findFirst({
       where: {
-        parentId: parentId,
+        id: parentId,
         ownerId: req.user.id,
       },
     });
@@ -200,5 +200,45 @@ function allFolderObjects(folder) {
   const folderObjects = [...folders, ...files];
   return folderObjects;
 }
+
+folderController.getSearch = async (req, res, next) => {
+  const { searchTerm } = req.query;
+
+  const foldersPromise = prisma.folder.findMany({
+    where: {
+      name: {
+        contains: searchTerm,
+        mode: 'insensitive',
+      },
+      ownerId: req.user.id,
+    },
+  });
+  const filesPromise = prisma.file.findMany({
+    where: {
+      name: {
+        contains: searchTerm,
+        mode: 'insensitive',
+      },
+      ownerId: req.user.id,
+    },
+  });
+
+  const [folders, files] = await Promise.all([foldersPromise, filesPromise]);
+  const objects = [];
+
+  folders.forEach((folder) =>
+    objects.push({ type: 'folder', folderId: folder.id, name: folder.name }),
+  );
+  files.forEach((file) =>
+    objects.push({
+      type: 'file',
+      folderId: file.folderId,
+      fileId: file.id,
+      name: file.name,
+    }),
+  );
+
+  return res.json({ success: true, objects });
+};
 
 export default folderController;

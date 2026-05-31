@@ -11,11 +11,8 @@ Sharable links that can either link to the file or folder
 
 ## Build Plan
 
-search bar
 logo
 navbar
-empty folder message
-active vs inactive breadcrumb folder
 storage usage status
 
 ## Architecture

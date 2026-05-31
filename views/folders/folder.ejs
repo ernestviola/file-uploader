@@ -10,6 +10,7 @@
     <script src='/scripts/fileSize.js' defer></script>
     <script src='/scripts/folderSave.js' defer></script>
     <script src='/scripts/folderActions.js' defer></script>
+    <script src='/scripts/search.js' defer></script>
   </head>
   <body>
     <nav>
@@ -21,8 +22,9 @@
       </div>
     </nav>
     <div class='container'>
-      <form action='' class='search-form' >
-        <input type='text' name='search' placeholder='search...' class='search' autofocus>
+      <form action='' class='search-form' id='search-form' >
+        <input type='text' name='search' placeholder='search...' class='search' id='search' autofocus>
+        <img src='/icons/search.svg' alt='' class='search-icon'>
       </form>
       <div class='explorer'>
         <div class='explorer-header'>
@@ -84,7 +86,10 @@
             <%}); %>
           </div>
         <% } else { %>
-          <span>Add a folder or file!</span>
+          <div class='empty-folder'>
+            <p>Nothing to see :(</p>
+            <p>Add a folder or file!</p>
+          </div>
         <% } %>
       </div>
     </div>

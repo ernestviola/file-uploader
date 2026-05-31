@@ -14,6 +14,7 @@ folderRouter.use((req, res, next) => {
   return next();
 });
 
+folderRouter.get('/search', folderController.getSearch);
 folderRouter.get('/home', folderController.getRoot);
 folderRouter.get('/:id', folderController.getFolder);
 
