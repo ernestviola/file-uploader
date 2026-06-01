@@ -32,6 +32,20 @@ steps:
         PGPASSWORD=$$DB_PASSWORD psql -h localhost -U $$DB_USER -d postgres -c "CREATE DATABASE members_only" 2>/dev/null || true
         PGPASSWORD=$$DB_PASSWORD psql -h localhost -U $$DB_USER -d members_only -f lib/db/populate.sql
 
+  - name: node:24
+    id: 'Run Prisma migrations'
+    entrypoint: sh
+    secretEnv: ['DB_USER', 'DB_PASSWORD']
+    args:
+      - -c
+      - |
+        wget https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.15.2/cloud-sql-proxy.linux.amd64 -O cloud-sql-proxy
+        chmod +x cloud-sql-proxy
+        ./cloud-sql-proxy ${_INSTANCE_CONNECTION} --port=5432 &
+        sleep 5
+        npm install
+        DATABASE_URL="postgresql://$$DB_USER:$$DB_PASSWORD@127.0.0.1:5432/file_uploader" npx prisma migrate deploy
+
   # Build artifact repo if doesn't exist
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     id: 'Create Artifact Registry repository'
