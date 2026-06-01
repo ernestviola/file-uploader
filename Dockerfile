@@ -12,4 +12,4 @@ RUN npx prisma generate
 
 EXPOSE 3000
 
-CMD ["npx", "prisma", "migrate", "deploy", "&&", "node", "app.js"]
+CMD ["node", "app.js"]
