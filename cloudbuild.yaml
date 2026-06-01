@@ -24,9 +24,10 @@ steps:
     args:
       - -c
       - |
-        wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-        chmod +x cloud_sql_proxy
-        ./cloud_sql_proxy -instances=${_INSTANCE_CONNECTION}=tcp:5432 &
+        curl -o cloud-sql-proxy \
+          https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.22.0/cloud-sql-proxy.linux.amd64
+        chmod +x cloud-sql-proxy
+        ./cloud-sql-proxy --port 5432 ${_INSTANCE_CONNECTION} &
         sleep 5
         PGPASSWORD=$$DB_PASSWORD psql -h localhost -U $$DB_USER -d postgres -c "CREATE DATABASE ${_DB_DATABASE}" 2>/dev/null || true
 
@@ -38,13 +39,14 @@ steps:
     args:
       - -c
       - |
-        apt-get update && apt-get install -y wget
-        wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-        chmod +x cloud_sql_proxy
-        ./cloud_sql_proxy -instances=${_INSTANCE_CONNECTION}=tcp:5432 &
+        apt-get update && apt-get install -y curl
+        curl -o cloud-sql-proxy \
+          https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.22.0/cloud-sql-proxy.linux.amd64
+        chmod +x cloud-sql-proxy
+        ./cloud-sql-proxy --port 5432 ${_INSTANCE_CONNECTION} &
         sleep 5
         npm ci
-        DATABASE_URL="postgresql://$$DB_USER:$$DB_PASSWORD@localhost/${_DB_DATABASE}?host=/cloudsql/${_INSTANCE_CONNECTION}" \
+        DATABASE_URL="postgresql://$$DB_USER:$$DB_PASSWORD@localhost:5432/${_DB_DATABASE}" \
           npx prisma migrate deploy
 
   # Build artifact repo if doesn't exist
