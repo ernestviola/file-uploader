@@ -5,7 +5,7 @@
 }
 
 body {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -23,6 +23,7 @@ nav {
 }
 
 .container {
+  overflow: hidden;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -72,6 +73,7 @@ nav {
 }
 
 .explorer {
+  overflow: auto;
   width: 100%;
   max-width: max(70%, 800px);
   flex: 1;
@@ -317,4 +319,25 @@ dialog > form > input {
   margin-top: 80px;
   text-align: center;
   font-size: 30px;
+}
+
+.explorer-header-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bar-track {
+  border: 1px solid rgb(185, 185, 185);
+  background-color: rgb(221, 221, 221);
+  height: 10px;
+  border-radius: 9999px;
+  /* height: 200px;
+  width: 2px; */
+}
+
+.bar-fill {
+  background-color: var(--primary-color);
+  height: 100%;
+  border-radius: 9999px;
 }

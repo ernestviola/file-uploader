@@ -1,7 +1,13 @@
 const fileSizes = [...document.getElementsByClassName('fileSize')];
 
 fileSizes.forEach((file) => {
-  file.innerText = formatFileSize(parseInt(file.innerText));
+  file.textContent = formatFileSize(parseInt(file.textContent));
+});
+
+const usageFrac = [...document.getElementsByClassName('storage-status-frac')];
+
+usageFrac.forEach((frac) => {
+  frac.textContent = formatFileSize(frac.dataset.value);
 });
 
 function formatFileSize(bytes) {

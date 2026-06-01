@@ -44,13 +44,28 @@
               </div>
               <% } %>
           </div>
-          <div class='btn-container'>
-            <button aria-label='New Folder' title='New Folder' class='btn-simple' id='new-folder-button' data-parent-folder-id='<%= locals.folder.id %>'>
-              <img src='/icons/add.svg' alt='' > New Folder
-            </button>
-            <button aria-label='New File' title='New File' class='btn-simple' id='new-files-button' data-parent-folder-id='<%= locals.folder.id %>'>
-              <img src='/icons/add.svg' alt='' > Add Files
-            </button>
+          <div class='explorer-header-right'>
+            <div class='btn-container'>
+              <button aria-label='New Folder' title='New Folder' class='btn-simple' id='new-folder-button' data-parent-folder-id='<%= locals.folder.id %>'>
+                <img src='/icons/add.svg' alt='' > New Folder
+              </button>
+              <button aria-label='New File' title='New File' class='btn-simple' id='new-files-button' data-parent-folder-id='<%= locals.folder.id %>'>
+                <img src='/icons/add.svg' alt='' > Add Files
+              </button>
+            </div>
+            <div id='storage-status'>
+              <div>
+                <label for='storage used'>Available </label>
+                <span>
+                  <span class='storage-status-frac' data-value='<%= stored %>'></span> /
+                  <span class='storage-status-frac' data-value="<%= totalSpace %>"></span>
+                </span>
+                </div>
+              <meter value='<%= stored %>' min='' max='<%= totalSpace %>' id='storage-used' hidden></meter>
+              <div class='bar-track'>
+                <div class='bar-fill' style='width: <%= barfill %>%'></div>
+              </div>
+            </div>
           </div>
         </div>
         <% if (locals.folderObjects.length !== 0) { %>

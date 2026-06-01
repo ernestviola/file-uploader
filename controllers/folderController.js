@@ -28,11 +28,20 @@ folderController.getRoot = async (req, res, next) => {
   }
 
   const breadcrumbs = [{ id: folder.id, name: folder.name }];
+  const usage = await prisma.file.aggregate({
+    where: {
+      ownerId: req.user.id,
+    },
+    _sum: { size: true },
+  });
 
   res.render('folders/folder', {
     folder,
     breadcrumbs,
     folderObjects: allFolderObjects(folder),
+    stored: usage._sum.size,
+    totalSpace: 104857600,
+    barfill: usage._sum.size / 104857600,
   });
 };
 
@@ -70,10 +79,20 @@ folderController.getFolder = async (req, res, next) => {
     }
   }
   breadcrumbs.reverse();
+  const usage = await prisma.file.aggregate({
+    where: {
+      ownerId: req.user.id,
+    },
+    _sum: { size: true },
+  });
+
   res.render('folders/folder', {
     folder,
     breadcrumbs,
     folderObjects: allFolderObjects(folder),
+    stored: usage._sum.size,
+    totalSpace: 104857600,
+    barfill: (usage._sum.size * 100) / 104857600,
   });
 };
 
@@ -87,7 +106,7 @@ folderController.postCreateFolder = [
       // given we're requiring it on the form we'll just redirect here
       res.redirect(`/folders/${parentId}`);
     }
-    console.log(parentId);
+
     const parentFolder = await prisma.folder.findFirst({
       where: {
         id: parentId,

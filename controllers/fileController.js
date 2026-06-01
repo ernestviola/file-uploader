@@ -6,9 +6,11 @@ import { body, validationResult, matchedData } from 'express-validator';
 import { bucket } from '../libs/storage.js';
 import { prisma } from '../libs/prisma.js';
 
+const MAX_STORAGE_BYTES = 104857600;
+
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 mb file size limit
 });
 
 const validateFileName = [
@@ -74,7 +76,7 @@ fileController.postNewFile = [
     }
 
     const uploadedFiles = [];
-    const blobs = [];
+
     for (const file of req.files) {
       const fileId = uuid();
       const fileName = path.basename(
@@ -85,13 +87,6 @@ fileController.postNewFile = [
 
       const gcsPath = `${userId}/${fileId}.${extension}`;
 
-      const blob = bucket.file(gcsPath);
-      blobs.push(
-        blob.save(file.buffer, {
-          contentType: file.mimetype,
-        }),
-      );
-
       uploadedFiles.push({
         ownerId: parseInt(userId),
         folderId: parseInt(folderId),
@@ -100,13 +95,42 @@ fileController.postNewFile = [
         filePath: gcsPath,
         size: file.size,
         mimeType: file.mimetype,
+        file: file,
       });
     }
 
     try {
+      // check if the user has enough space for the new files
+      const usage = await prisma.file.aggregate({
+        where: {
+          ownerId: req.user.id,
+        },
+        _sum: { size: true },
+      });
+
+      const currentUsageSize = usage._sum.size ?? 0;
+
+      const newFilesTotalSize = uploadedFiles.reduce(
+        (accumulator, file) => accumulator + file.size,
+        0,
+      );
+      const totalNewUsage = currentUsageSize + newFilesTotalSize;
+
+      if (totalNewUsage > MAX_STORAGE_BYTES) {
+        throw new Error(
+          `You'll be over your storage limit ${totalNewUsage} / ${MAX_STORAGE_BYTES}`,
+        );
+      }
+
+      const blobs = uploadedFiles.map((data) => {
+        return bucket.file(data.filePath).save(data.file.buffer, {
+          contentType: data.file.mimetype,
+        });
+      });
+
       await Promise.all(blobs);
       await prisma.file.createMany({
-        data: uploadedFiles,
+        data: uploadedFiles.map(({ file, ...rest }) => rest),
       });
       return res.redirect(`/folders/${folderId}`);
     } catch (error) {
@@ -122,7 +146,7 @@ fileController.postNewFile = [
         ),
       );
 
-      const err = new Error('Failed to upload files');
+      const err = new Error(error.message || 'Failed to upload files');
       err.statusCode = 500;
       return next(err);
     }

@@ -13,7 +13,6 @@ Sharable links that can either link to the file or folder
 
 logo
 navbar
-storage usage status
 
 ## Architecture
 
