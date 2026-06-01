@@ -16,35 +16,21 @@ availableSecrets:
       env: 'DB_PASSWORD'
 
 steps:
-  # Create database if it doesn't exist
-  - name: 'postgres:alpine'
-    id: 'Create database'
+  # Create database and run Prisma migrations
+  - name: 'node:24-slim'
+    id: 'Migrate database'
     entrypoint: sh
     secretEnv: ['DB_USER', 'DB_PASSWORD']
     args:
       - -c
       - |
+        apt-get update && apt-get install -y curl postgresql-client
         curl -o cloud-sql-proxy \
           https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.22.0/cloud-sql-proxy.linux.amd64
         chmod +x cloud-sql-proxy
         ./cloud-sql-proxy --port 5432 ${_INSTANCE_CONNECTION} &
         sleep 5
         PGPASSWORD=$$DB_PASSWORD psql -h localhost -U $$DB_USER -d postgres -c "CREATE DATABASE ${_DB_DATABASE}" 2>/dev/null || true
-
-  # Migrate using Prisma
-  - name: 'node:24-slim'
-    id: 'Run Prisma migrations'
-    entrypoint: sh
-    secretEnv: ['DB_USER', 'DB_PASSWORD']
-    args:
-      - -c
-      - |
-        apt-get update && apt-get install -y curl
-        curl -o cloud-sql-proxy \
-          https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.22.0/cloud-sql-proxy.linux.amd64
-        chmod +x cloud-sql-proxy
-        ./cloud-sql-proxy --port 5432 ${_INSTANCE_CONNECTION} &
-        sleep 5
         npm ci
         DATABASE_URL="postgresql://$$DB_USER:$$DB_PASSWORD@localhost:5432/${_DB_DATABASE}" \
           npx prisma migrate deploy
