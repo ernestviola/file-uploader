@@ -4,6 +4,7 @@ substitutions:
   _SERVICE_NAME: file-uploader
   _INSTANCE_CONNECTION: pet-projects-461723:us-central1:the-odin-project
   _DB_DATABASE: file_uploader
+  _GCS_BUCKET: file-uploader-bucket_12345786
 
 options:
   logging: CLOUD_LOGGING_ONLY
@@ -77,7 +78,7 @@ steps:
       - --region=${_REGION}
       - --platform=managed
       - --allow-unauthenticated
-      - --set-env-vars=INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION},DB_DATABASE=${_DB_DATABASE}
+      - --set-env-vars=INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION},DB_DATABASE=${_DB_DATABASE},GCS_BUCKET_NAME=${_GCS_BUCKET}
       - --set-secrets=DB_USER=TOP-SQL-USER:latest,DB_PASSWORD=TOP-SQL-PW:latest
       - --add-cloudsql-instances=${_INSTANCE_CONNECTION}
 
