@@ -23,6 +23,28 @@ search.addEventListener('input', () => {
   }
 });
 
+search.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    removeSearchResults();
+    search.blur();
+  }
+});
+
+search.addEventListener('focus', () => {
+  if (search.value) {
+    clearTimeout(timeout);
+
+    timeout = setTimeout(async () => {
+      const objects = await fetchObjects();
+      if (search.value) {
+        loadSearchResults(objects);
+      }
+    }, 300);
+  } else {
+    removeSearchResults();
+  }
+});
+
 async function fetchObjects() {
   const response = await fetch(`/folders/search?searchTerm=${search.value}`);
   const data = await response.json();
