@@ -78,7 +78,7 @@ steps:
       - --region=${_REGION}
       - --platform=managed
       - --allow-unauthenticated
-      - --set-env-vars=INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION},DB_DATABASE=${_DB_DATABASE},GCS_BUCKET_NAME=${_GCS_BUCKET}
+      - --update-env-vars=INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION},DB_DATABASE=${_DB_DATABASE},GCS_BUCKET_NAME=${_GCS_BUCKET}
       - --set-secrets=DB_USER=TOP-SQL-USER:latest,DB_PASSWORD=TOP-SQL-PW:latest
       - --add-cloudsql-instances=${_INSTANCE_CONNECTION}
 
